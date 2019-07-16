@@ -3,10 +3,10 @@ variables:
   - group: captureorder-variables # Variable Group containing 'mongoHost', 'mongoUser' and the secret 'mongoPassword'
 
   - name: dockerRegistryServiceConnection
-    value: 'containerRegistryConnection' # replace with container registry service connection name established during pipeline creation
+    value: 'containerRegistryConnection' # make sure it matches the name you used in the service connection
   
   - name: acrEndpoint
-    value: 'acr73505.azurecr.io' # replace with container registry endpoint
+    value: 'uniqueacrname.azurecr.io' # replace with container registry endpoint
 
   - name: tag
     value: '$(Build.BuildId)'
@@ -75,8 +75,3 @@ stages:
               namespace: $(k8sNamespace)
               manifests: $(System.ArtifactsDirectory)/manifests/*
               containers: '$(acrEndpoint)/captureorder:$(tag)'
-
-          - task: PublishPipelineArtifact@0
-            inputs:
-              artifactName: 'manifests'
-              targetPath: 'manifests'
